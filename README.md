@@ -43,6 +43,8 @@ filter_name修改为cloudwatch log 中的subscription filter name，这里为New
 将代码压缩成gzip文件，这里用的文件名为Create-EKS-Node-Alarm.zip
 
 ## Create Lambda Function
+
+Lambda Function中的Timeout可根据实际情况调大
 ```
 aws lambda create-function \
     --function-name Create-EKS-New-Node-Alarm \
