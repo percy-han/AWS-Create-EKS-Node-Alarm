@@ -3,8 +3,8 @@ Create KES New Node instance alram by script
 Limition:
 Two subscription filter
 
-# To create a Lambda
-## Create IAM Policy 
+
+# Create IAM Policy 
 Policy Nmae: Lambda-EKS-Node-Alarm-Policy
 ```
 {
@@ -26,10 +26,10 @@ Policy Nmae: Lambda-EKS-Node-Alarm-Policy
 }
 ```
 
-## Create IAM Role 
+# Create IAM Role 
 Role Name: Lambda-EKS-Node-Alarm-Role
 
-## Create Lambda Function
+# Create Lambda Function
 ```
 aws lambda create-function \
     --function-name Create-EKS-New-Node-Alarm \
@@ -40,7 +40,7 @@ aws lambda create-function \
     --region us-west-2
 ```
 
-## Grant CloudWatch Logs the permission to execute your function. Use the following command, replacing the placeholder account with your own account and the placeholder log group with the log group to process:
+# Grant CloudWatch Logs the permission to execute your function. Use the following command, replacing the placeholder account with your own account and the placeholder log group with the log group to process:
 ```
 aws lambda add-permission \
     --function-name "Create-EKS-New-Node-Alarm" \
