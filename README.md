@@ -1,5 +1,5 @@
 # AWS-Create-EKS-Node-Alarm
-AWS instance级别的告警可以出发多种action，比如：auto-recovery,auto-scaling,执行lambda，发送通知等。然而该告警的配置是实例级别的，即只能为每一台实例配置告警，而无法配置一个统计模版。更重要的是，在生产环境中并非所有的workload都需要如此配置。这里以EKS集群为例，说明下当EKS集群扩容之后如何对新增节点配置instance级别的告警
+AWS instance级别的告警可以出发多种action，比如：auto-recovery,auto-scaling,执行lambda，发送通知等。然而该告警的配置是实例级别的，即只能为每一台实例配置告警，而无法配置一个统计模版。更重要的是，在生产环境中并非所有的workload都需要如此配置。这里以EKS集群为例，说明下当EKS集群扩容之后如何对新增节点配置instance级别的告警，当实例底层出现硬件故障之后自动触发auto-recovery
 
 ## Limition:
 Each log group can have up to two subscription filters associated with it!
@@ -37,6 +37,10 @@ Role Name: Lambda-EKS-Node-Alarm-Role
 代码中的region配置为您实际的region name
 
 filter_name修改为cloudwatch log 中的subscription filter name，这里为New-Node-Join-EKS-Cluster
+
+如果想触发更多action，可以在AlarmActions部分进行添加
+
+将代码压缩成gzip文件，这里用的文件名为Create-EKS-Node-Alarm.zip
 
 ## Create Lambda Function
 ```
