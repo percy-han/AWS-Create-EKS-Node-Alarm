@@ -52,7 +52,8 @@ aws lambda add-permission \
 
 
 # Create a subscription filter using the following command, replacing the placeholder account with your own account and the placeholder log group with the log group to process
-```aws logs put-subscription-filter \
+```
+aws logs put-subscription-filter \
     --log-group-name "/aws/eks/eks-workshop/cluster" \
     --filter-name New-Node-Join-EKS-Cluster \
     --filter-pattern "{ ($.apiVersion = \"audit.k8s.io/v1\") && ($.verb = \"patch\") &&($.objectRef.resource = \"nodes\") &&($.objectRef.subresource = \"status\") && ($.requestObject.status.conditions[3].type =  \"Ready\") &&  ($.requestObject.status.conditions[3].status =  \"True\")}" \
