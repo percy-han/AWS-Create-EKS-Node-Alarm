@@ -33,6 +33,9 @@ Role Name: Lambda-EKS-Node-Alarm-Role
 
 ![image](https://github.com/user-attachments/assets/41c00fdd-198e-4c1e-a3ad-08cb4dba5775)
 
+## customize Python Code
+代码中的region配置为您实际的region name
+filter_name修改为cloudwatch log 中的subscription filter name，这里为New-Node-Join-EKS-Cluster
 
 ## Create Lambda Function
 ```
