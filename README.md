@@ -38,7 +38,7 @@ Role Name: Lambda-EKS-Node-Alarm-Role
 ```
 aws lambda create-function \
     --function-name Create-EKS-New-Node-Alarm \
-    --zip-file fileb:///<file-path>/Create-EKS-Node-Alarm.zip \
+    --zip-file fileb://<file-path>/Create-EKS-Node-Alarm.zip \
     --role arn:aws:iam::887221633712:role/Lambda-EKS-Node-Alarm-Role \
     --handler lambda_function.lambda_handler \
     --runtime python3.10 \
@@ -52,8 +52,8 @@ aws lambda add-permission \
     --statement-id "Create-EKS-New-Node-Alarm" \
     --principal "logs.amazonaws.com" \
     --action "lambda:InvokeFunction" \
-    --source-arn "arn:aws:logs:us-west-2:887221633712:log-group:/aws/eks/eks-workshop/cluster:*" \
-    --source-account "887221633712" \
+    --source-arn "<EKS-Audit-Log-ARN> \
+    --source-account "<your-account>" \
     --region us-west-2
 ```
 
@@ -61,9 +61,9 @@ aws lambda add-permission \
 ## Create a subscription filter using the following command, replacing the placeholder account with your own account and the placeholder log group with the log group to process
 ```
 aws logs put-subscription-filter \
-    --log-group-name "/aws/eks/eks-workshop/cluster" \
+    --log-group-name "<EKS-Audit-Log-Name>" \
     --filter-name New-Node-Join-EKS-Cluster \
     --filter-pattern "{ ($.apiVersion = \"audit.k8s.io/v1\") && ($.verb = \"patch\") &&($.objectRef.resource = \"nodes\") &&($.objectRef.subresource = \"status\") && ($.requestObject.status.conditions[3].type =  \"Ready\") &&  ($.requestObject.status.conditions[3].status =  \"True\")}" \
     --destination-arn arn:aws:lambda:us-west-2:887221633712:function:Create-EKS-New-Node-Alarm \
-    --region us-west-2
+    --region <your-region>
 ```
