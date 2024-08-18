@@ -55,7 +55,7 @@ aws lambda create-function \
     --region <your-region>
 ```
 
-## Grant CloudWatch Logs the permission to execute your function. Use the following command, replacing the placeholder account with your own account and the placeholder log group with the log group to process:
+## Grant CloudWatch Logs the permission to execute your function
 ```
 aws lambda add-permission \
     --function-name "Create-EKS-New-Node-Alarm" \
@@ -64,11 +64,11 @@ aws lambda add-permission \
     --action "lambda:InvokeFunction" \
     --source-arn "<EKS-Audit-Log-ARN> \
     --source-account "<your-account>" \
-    --region us-west-2
+    --region <your-region>
 ```
 
 
-## Create a subscription filter using the following command, replacing the placeholder account with your own account and the placeholder log group with the log group to process
+## Create a subscription filter using the following command
 ```
 aws logs put-subscription-filter \
     --log-group-name "<EKS-Audit-Log-Name>" \
