@@ -5,7 +5,7 @@ AWS instance级别的告警可以出发多种action，比如：auto-recovery,aut
 Each log group can have up to two subscription filters associated with it!
 
 
-# Create IAM Policy 
+## Create IAM Policy 
 Policy Nmae: Lambda-EKS-Node-Alarm-Policy
 ```
 {
@@ -27,14 +27,14 @@ Policy Nmae: Lambda-EKS-Node-Alarm-Policy
 }
 ```
 
-# Create IAM Role 
+## Create IAM Role 
 Role Name: Lambda-EKS-Node-Alarm-Role
 ![image](https://github.com/user-attachments/assets/64b99973-955c-4e36-aaa6-bfd3e3501f7c)
 
 ![image](https://github.com/user-attachments/assets/41c00fdd-198e-4c1e-a3ad-08cb4dba5775)
 
 
-# Create Lambda Function
+## Create Lambda Function
 ```
 aws lambda create-function \
     --function-name Create-EKS-New-Node-Alarm \
@@ -42,10 +42,10 @@ aws lambda create-function \
     --role arn:aws:iam::887221633712:role/Lambda-EKS-Node-Alarm-Role \
     --handler lambda_function.lambda_handler \
     --runtime python3.10 \
-    --region us-west-2
+    --region <your-region>
 ```
 
-# Grant CloudWatch Logs the permission to execute your function. Use the following command, replacing the placeholder account with your own account and the placeholder log group with the log group to process:
+## Grant CloudWatch Logs the permission to execute your function. Use the following command, replacing the placeholder account with your own account and the placeholder log group with the log group to process:
 ```
 aws lambda add-permission \
     --function-name "Create-EKS-New-Node-Alarm" \
@@ -58,7 +58,7 @@ aws lambda add-permission \
 ```
 
 
-# Create a subscription filter using the following command, replacing the placeholder account with your own account and the placeholder log group with the log group to process
+## Create a subscription filter using the following command, replacing the placeholder account with your own account and the placeholder log group with the log group to process
 ```
 aws logs put-subscription-filter \
     --log-group-name "/aws/eks/eks-workshop/cluster" \
