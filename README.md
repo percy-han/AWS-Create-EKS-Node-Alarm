@@ -5,7 +5,7 @@ Two subscription filter
 
 # To create a Lambda
 ## Create IAM Policy 
-Policy Nmae:Lambda-EKS-Node-Alarm-Policy
+Policy Nmae: Lambda-EKS-Node-Alarm-Policy
 ```
 {
     "Version": "2012-10-17",
