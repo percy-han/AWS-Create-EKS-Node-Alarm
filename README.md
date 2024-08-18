@@ -5,7 +5,7 @@ Two subscription filter
 
 # To create a Lambda
 ## Create IAM Policy <Lambda-EKS-Node-Alarm-Policy>
-{
+`{
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -21,7 +21,7 @@ Two subscription filter
             "Resource": "*"
         }
     ]
-}
+}`
 
 ## Create IAM Role <Lambda-EKS-Node-Alarm-Role>
 
