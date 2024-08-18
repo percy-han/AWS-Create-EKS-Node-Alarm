@@ -18,7 +18,7 @@ def decode_and_decompress(encoded_data):
         with gzip.GzipFile(fileobj=io.BytesIO(decoded_data)) as gz_file:
             decompressed_data = gz_file.read()
 
-        # 如果原始文件是文本，可以将字节数据解码为字符串
+        # 将字节数据解码为字符串
         decompressed_data = decompressed_data.decode('utf-8')
         json_data = json.loads(decompressed_data)
 
@@ -37,7 +37,7 @@ def create_alarm(instance_id,region):
             'AlarmDescription': alarm_description,
             'ActionsEnabled': True,
             'AlarmActions': [
-                'arn:aws:automate:'+ region +':ec2:recover',  # 替换为您的 AWS 区域
+                'arn:aws:automate:'+ region +':ec2:recover',  
             ],
             'MetricName': 'StatusCheckFailed_System',
             'Namespace': 'AWS/EC2',
