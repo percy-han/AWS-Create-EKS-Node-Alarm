@@ -5,9 +5,11 @@ import json
 import io
 
 region = 'us-west-2' #修改为您的region name
-filter_name = 'New-Node-Join-EKS-Cluster' #修改为cloudwatch log 中的subscription filter name 
+join_filter_name = 'New-Node-Join-EKS-Cluster' #修改为cloudwatch log 中的subscription filter name 
 # 创建 CloudWatch 客户端
 cloudwatch = boto3.client('cloudwatch', region_name=region)
+ec2 = boto3.client('ec2',region_name=region)
+sns_topic = '<sns-arn>'
 
 def decode_and_decompress(encoded_data):
     try:
@@ -18,7 +20,7 @@ def decode_and_decompress(encoded_data):
         with gzip.GzipFile(fileobj=io.BytesIO(decoded_data)) as gz_file:
             decompressed_data = gz_file.read()
 
-        # 将字节数据解码为字符串
+        # 如果原始文件是文本，可以将字节数据解码为字符串
         decompressed_data = decompressed_data.decode('utf-8')
         json_data = json.loads(decompressed_data)
 
@@ -37,7 +39,8 @@ def create_alarm(instance_id,region):
             'AlarmDescription': alarm_description,
             'ActionsEnabled': True,
             'AlarmActions': [
-                'arn:aws:automate:'+ region +':ec2:recover',  
+                'arn:aws:automate:'+ region +':ec2:recover',  # 替换为您的 AWS 区域
+                sns_topic
             ],
             'MetricName': 'StatusCheckFailed_System',
             'Namespace': 'AWS/EC2',
@@ -72,14 +75,14 @@ def lambda_handler(event, context):
         event_json = decode_and_decompress(event['awslogs']['data'])
         if event_json:
             print(event_json)
-            if event_json['subscriptionFilters'][0] == filter_name:
+            if event_json['subscriptionFilters'][0] == join_filter_name:
                 print('Join Cluster')
                 data_message = json.loads(event_json['logEvents'][0]['message'])
                 response_code = data_message['responseStatus']['code']
                 print(f'response code: {response_code}')
-                instance_id = data_message['user']['extra']['sessionName'][0]
-                print(f'New_Instance_Id: {instance_id}')
                 if response_code == 200:
+                    instance_id = data_message['user']['extra']['sessionName'][0]
+                    print(f'New_Instance_Id: {instance_id}')
                     create_alarm(instance_id,region)
                 else:
                     print('Instance Join EKS Cluster Failed!')
