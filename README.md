@@ -74,6 +74,6 @@ aws logs put-subscription-filter \
     --log-group-name "<EKS-Audit-Log-Name>" \
     --filter-name New-Node-Join-EKS-Cluster \
     --filter-pattern "{ ($.apiVersion = \"audit.k8s.io/v1\") && ($.verb = \"patch\") &&($.objectRef.resource = \"nodes\") &&($.objectRef.subresource = \"status\") && ($.requestObject.status.conditions[3].type =  \"Ready\") &&  ($.requestObject.status.conditions[3].status =  \"True\")}" \
-    --destination-arn arn:aws:lambda:us-west-2:887221633712:function:Create-EKS-New-Node-Alarm \
+    --destination-arn arn:aws:lambda:<your-region>:<your-account-id>:function:Create-EKS-New-Node-Alarm \
     --region <your-region>
 ```
